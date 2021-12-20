@@ -26,6 +26,7 @@ model products {
   productsAllergies productsAllergies[]
   nutritions        nutritions[]
   heart             heart[]
+  comment           comment[]
 
   categories   categories @relation(fields: [categoriesId], references: [id])
   categoriesId Int
@@ -64,14 +65,15 @@ model nutritions {
 }
 
 model users {
-  id            Int     @id @default(autoincrement())
+  id            Int       @id @default(autoincrement())
   email         String
   password      String
   username      String?
   address       String?
   phone_number  String?
-  policy_agreed Boolean @default(true)
+  policy_agreed Boolean   @default(true)
   heart         heart[]
+  comment       comment[]
 }
 
 model heart {
@@ -80,5 +82,16 @@ model heart {
   users      users    @relation(fields: [usersId], references: [id])
   usersId    Int
   products   products @relation(fields: [productsId], references: [id])
+  productsId Int
+}
+
+model comment {
+  id         Int       @id @default(autoincrement())
+  created_at DateTime? @default(now())
+  updated_at DateTime?
+  deleted_at DateTime?
+  users      users     @relation(fields: [usersId], references: [id])
+  usersId    Int
+  products   products  @relation(fields: [productsId], references: [id])
   productsId Int
 }
