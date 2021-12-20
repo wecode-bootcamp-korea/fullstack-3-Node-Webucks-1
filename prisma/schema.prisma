@@ -57,11 +57,11 @@ model nutritions {
 }
 
 model users {
-  id Int @id @default(autoincrement())
-  email String @unique 
-  password String 
-  username String?
-  address String?
-  phone_number String? 
+  id            Int     @id @default(autoincrement())
+  email         String  @unique 
+  password      String 
+  username      String?
+  address       String?
+  phone_number  String? 
   policy_agreed Boolean @default(true)
 }
