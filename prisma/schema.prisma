@@ -25,6 +25,7 @@ model products {
   images            images[]
   productsAllergies productsAllergies[]
   nutritions        nutritions[]
+  heart             heart[]
 
   categories   categories @relation(fields: [categoriesId], references: [id])
   categoriesId Int
@@ -70,4 +71,14 @@ model users {
   address       String?
   phone_number  String?
   policy_agreed Boolean @default(true)
+  heart         heart[]
+}
+
+model heart {
+  id Int @id @default(autoincrement())
+
+  users      users    @relation(fields: [usersId], references: [id])
+  usersId    Int
+  products   products @relation(fields: [productsId], references: [id])
+  productsId Int
 }
