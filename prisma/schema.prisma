@@ -1,0 +1,66 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model categories {
+  id       Int        @id @default(autoincrement())
+  name     String     @unique
+  products products[]
+}
+
+model products {
+  id                Int                 @id @default(autoincrement())
+  korean_name       String              @unique
+  english_name      String              @unique
+  images            images[]
+  product_allergies product_allergies[]
+  nutritions        nutritions[]
+  categories        categories?         @relation(fields: [categoriesId], references: [id])
+  categoriesId      Int?
+}
+
+model images {
+  id         Int       @id @default(autoincrement())
+  image_url  String    @unique
+  products   products? @relation(fields: [productsId], references: [id])
+  productsId Int?
+}
+
+model allergies {
+  id                Int                 @id @default(autoincrement())
+  name              String              @unique
+  product_allergies product_allergies[]
+}
+
+model product_allergies {
+  id          Int        @id @default(autoincrement())
+  products    products?  @relation(fields: [productsId], references: [id])
+  productsId  Int?
+  allergies   allergies? @relation(fields: [allergiesId], references: [id])
+  allergiesId Int?
+}
+
+model nutritions {
+  id         Int       @id @default(autoincrement())
+  name       String
+  amount     Int
+  products   products? @relation(fields: [productsId], references: [id])
+  productsId Int?
+}
+
+model users {
+  id           Int     @id @default(autoincrement())
+  email        String  @unique
+  userName     String?
+  address      String?
+  phoneNumber  String?
+  policyAgreed Boolean @default(true)
+}

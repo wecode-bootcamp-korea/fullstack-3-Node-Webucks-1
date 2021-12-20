@@ -18,6 +18,14 @@
   },
   "homepage": "https://github.com/wecode-bootcamp-korea/fullstack-3-Node-Webucks-1#readme",
   "devDependencies": {
-    "nodemon": "^2.0.15"
+    "dotenv": "^10.0.0",
+    "nodemon": "^2.0.15",
+    "prisma": "^3.6.0"
+  },
+  "dependencies": {
+    "@prisma/client": "^3.6.0",
+    "bcrypt": "^5.0.1",
+    "express": "^4.17.2",
+    "uuid": "^8.3.2"
   }
 }
