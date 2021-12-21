@@ -20,11 +20,19 @@ const signUp = async (email, password, username, address, phone_number, policy_a
 //로그인
 const signIn = async (email) => {
   try {
-    const users = prisma.$queryRaw`select email, password from users where email = ${email}`;
+    const users = prisma.$queryRaw`select id, email, password from users where email = ${email}`;
     return users;
   } catch (err) {
     console.log(err);
   }
 };
-
-export default { signUp, signIn };
+// id값 있나?
+const validId = async (Id) => {
+  try {
+    const getId = prisma.$queryRaw`select id from users where id = ${Id}`;
+    return getId;
+  } catch (err) {
+    console.log(err);
+  }
+};
+export default { signUp, signIn, validId };

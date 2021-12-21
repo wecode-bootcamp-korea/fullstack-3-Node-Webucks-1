@@ -13,6 +13,7 @@ const signIn = async (email, password) => {
   const [users] = await userDao.signIn(email);
   if (!users) throw new Error('id , pw가 맞지 않습니다.');
   if (!bcrypt.compareSync(password, users.password)) throw new Error('id , pw가 맞지 않습니다.');
+  console.log(users.id);
   let token = jwt.sign(
     {
       id: users.id,
