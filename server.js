@@ -1,11 +1,13 @@
 const http = require("http");
 const express = require("express");
-const { categories } = require("./categories");
-const { getProductList  } = require("./getProducts");
-const { getProductDetail } = require("./getProductDetail");
-const {updateProduct} = require("./updateProduct");
-const {deleteProduct} = require("./deleteProduct");
-const {createProduct} = require("./createProduct");
+const { categories } = require("./api/categories");
+
+const { getProductList } = require("./api/getProducts");
+const { updateProduct } = require("./api/updateProduct");
+const { deleteProduct } = require("./api/deleteProduct");
+const { createProduct } = require("./api/createProduct");
+
+const { getProductDetail } = require("./api/getProductDetail");
 
 const PORT = 8000;
 
@@ -15,14 +17,14 @@ app.use(express.json());
 app.get("/", (req, res) => {
   res.json({ message: "/ home" });
 });
-app.get("/products/categories", categories);
+app.get("/categories", categories);
 
 app.get("/products", getProductList);
-app.post("/products", createProduct);
-app.put("/products", updateProduct);
-app.delete("/products", deleteProduct);
 
-app.get("/products/detail", getProductDetail);
+app.get("/product", getProductDetail);
+app.post("/product", createProduct);
+app.put("/product", updateProduct);
+app.delete("/product", deleteProduct);
 
 //서버 세팅
 const server = http.createServer(app);

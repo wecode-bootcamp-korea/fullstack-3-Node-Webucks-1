@@ -1,4 +1,4 @@
-const { productList } = require("./productList");
+const { productList } = require("./data/productList");
 
 const deleteProduct = (req, res) => {
   const { id } = req.body;
@@ -6,6 +6,7 @@ const deleteProduct = (req, res) => {
   const index = productList.data.indexOf(del);
   productList.data.splice(index, 1);
   res.json(productList);
+  res.status(204).json({ data: productList });
 };
 
 module.exports = { deleteProduct };
