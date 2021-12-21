@@ -10,6 +10,7 @@ const { createProduct } = require("./api/createProduct");
 const { getProductDetail } = require("./api/getProductDetail");
 
 const { createUser } = require("./api/createUser");
+const { getUsers } = require("./api/getUser");
 
 const PORT = 8000;
 
@@ -29,6 +30,7 @@ app.put("/product", updateProduct);
 app.delete("/product", deleteProduct);
 
 app.post("/user", createUser);
+app.get("/users", getUsers)
 
 //서버 세팅
 const server = http.createServer(app);

@@ -4,15 +4,15 @@ const prisma = new PrismaClient();
 
 const createUser = async (req, res) => {
   try {
-    const { email, username, password } = req.body;
+    const { email, password } = req.body;
 
-    console.log(`email: ${email} , username: ${username}`);
+    console.log(`email: ${email}`);
 
     const createdUser = await prisma.$queryRaw`
         INSERT INTO 
-            users(email, password, username) 
+            users(email, password) 
         VALUES 
-            (${email}, ${password}, ${username});
+            (${email}, ${password});
       `;
 
     return res.status(201).json({ message: "CREATED" });
