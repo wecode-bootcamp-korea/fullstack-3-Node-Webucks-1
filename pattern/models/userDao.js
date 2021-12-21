@@ -26,13 +26,5 @@ const signIn = async (email) => {
     console.log(err);
   }
 };
-// 토큰 가지고 있니?
-const isToken = async (token) => {
-  try {
-    const getToken = prisma.$queryRaw`select id, email from users where id = ${token}`;
-    return getToken;
-  } catch (err) {
-    console.log(err);
-  }
-};
-export default { signUp, signIn, isToken };
+
+export default { signUp, signIn };

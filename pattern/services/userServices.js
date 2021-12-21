@@ -1,6 +1,6 @@
-//const userDao = require('../models/userDao');
 import { userDao } from '../models';
 import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
 
 const signUp = async (email, password, username, address, phone_number, policy_agreed) => {
   const [is_mail] = await userDao.signIn(email);
@@ -13,7 +13,16 @@ const signIn = async (email, password) => {
   const [users] = await userDao.signIn(email);
   if (!users) throw new Error('id , pw가 맞지 않습니다.');
   if (!bcrypt.compareSync(password, users.password)) throw new Error('id , pw가 맞지 않습니다.');
-  const token = users.id;
+  let token = jwt.sign(
+    {
+      id: users.id,
+    },
+    'abcd',
+    {
+      expiresIn: '60m', // 유효 시간은 60분
+    }
+  );
+
   return token;
 };
 
