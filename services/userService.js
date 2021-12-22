@@ -1,5 +1,6 @@
 const userDao = require("../models/userDao");
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 
 // READ a user info in the database and return a token
 const userSignIn = async (email, password) => {
@@ -43,7 +44,8 @@ const userSignUp = async (email, password, username) => {
 }
 
 const getToken = async (userId) => {
-   return userId*8888;
+   const makeToken = jwt.sign({ id: userId }, 'server_made_secret_key', { expiresIn: '1h' });
+   return makeToken;
 }
 
 module.exports = { userSignIn, userSignUp};
