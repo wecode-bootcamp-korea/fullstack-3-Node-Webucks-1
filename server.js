@@ -13,17 +13,16 @@ app.use(express.json());
 app.use(routes);
 
 /* Client's HTTP REQUEST based */
-// 1. GET REQUEST
 // Mission 1
+// 1. GET REQUEST
 app.get("/coffees/categories", sendCategories);
 app.get("/coffees/detail", sendDetail);
 app.get("/coffees", sendList);
-
 // 2. POST REQUEST
-// Mission 1
 app.post("/coffees/create", createCoffee);
 app.post("/coffees/update", updateCoffee);
 app.post("/coffees/delete", deleteCoffee);
+
 
 // Create a server
 const server = http.createServer(app);
