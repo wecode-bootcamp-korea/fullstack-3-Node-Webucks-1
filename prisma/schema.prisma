@@ -65,15 +65,15 @@ model nutritions {
 }
 
 model users {
-  id            Int       @id @default(autoincrement())
-  email         String
-  password      String
-  username      String?
-  address       String?
-  phone_number  String?
-  policy_agreed Boolean   @default(true)
-  heart         heart[]
-  comment       comment[]
+  id           Int       @id @default(autoincrement())
+  email        String
+  password     String
+  username     String?
+  address      String?
+  phoneNumber  String?
+  policyAgreed Boolean   @default(true)
+  heart        heart[]
+  comment      comment[]
 }
 
 model heart {

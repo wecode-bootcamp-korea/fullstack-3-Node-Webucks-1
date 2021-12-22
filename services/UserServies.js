@@ -5,14 +5,14 @@ const signUp = async (email, password, username) => {
   const [user] = await userDao.getUserByEmail(email);
 
   if (user) {
-    const error = new Error('ID ALEADY EXISTS');
-    error.statusCode = 400;
+    const error = new Error('ID_ALEADY_EXISTS');
+    error.statusCode = 409;
 
     throw error;
   } else {
-    const createUser = userDao.signUp(email, password, username);
+    const createdUser = userDao.createUser(email, password, username);
 
-    return createUser;
+    return createdUser;
   }
 };
 

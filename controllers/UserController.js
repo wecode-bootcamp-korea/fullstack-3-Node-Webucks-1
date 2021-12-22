@@ -5,7 +5,9 @@ const signUp = async (req, res) => {
     const { email, password, username } = req.body;
     const REQUIRED_KEYS = { email, password };
 
-    const createUser = await UserServies.signUp(email, password, username);
+    console.log('email: ', email);
+
+    await UserServies.signUp(email, password, username);
 
     return res.status(201).json({ message: 'CREATED_SUCCESS' });
   } catch (err) {
