@@ -1,0 +1,69 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model categories {
+  id       Int        @id @default(autoincrement()) @db.TinyInt
+  name     String
+  products products[]
+}
+
+model products {
+  id           Int        @id @default(autoincrement())
+  korean_name  String
+  english_name String
+  category_id  Int        @db.TinyInt
+  categories   categories @relation(fields: [category_id], references: [id])
+  images images[]
+  product_allergies product_allergies[]
+  nutritions nutritions[]
+}
+
+model images {
+  id         Int    @id @default(autoincrement())
+  image_url  String
+  product_id Int
+  products products @relation(fields: [product_id], references: [id])
+}
+
+model allergies {
+  id   Int    @id @default(autoincrement()) @db.TinyInt
+  name String
+  product_allergies product_allergies[]
+}
+
+model product_allergies {
+  id         Int @id @default(autoincrement())
+  product_id Int
+  allergy_id Int @db.TinyInt
+  products products @relation(fields: [product_id], references: [id])
+  allergies allergies @relation(fields: [allergy_id], references: [id])
+}
+
+model nutritions {
+  id Int @id @default(autoincrement())
+  name String
+  product_id Int
+  amount Float
+  products products @relation(fields: [product_id], references: [id])
+}
+
+model users {
+  id            Int     @id @default(autoincrement())
+  email         String  @unique
+  password      String
+  username      String?
+  address       String?
+  phone_number  String?
+  policy_agreed Boolean @default(true)
+
+  // @@map("users") 방법으로 model name 변경 가능
+}
