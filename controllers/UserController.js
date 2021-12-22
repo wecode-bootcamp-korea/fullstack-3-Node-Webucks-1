@@ -1,4 +1,4 @@
-const UserServies = require('../services/UserServies');
+const UserServices = require('../services/UserServices');
 
 const signUp = async (req, res) => {
   try {
@@ -7,7 +7,7 @@ const signUp = async (req, res) => {
 
     console.log('email: ', email);
 
-    await UserServies.signUp(email, password, username);
+    await UserServices.signUp(email, password, username);
 
     return res.status(201).json({ message: 'CREATED_SUCCESS' });
   } catch (err) {
@@ -27,7 +27,9 @@ const signIn = async (req, res) => {
       }
     }
 
-    const token = await UserServies.signIn(email, password);
+    console.log(email, password);
+
+    const token = await UserServices.signIn(email, password);
 
     return res.status(201).json({ message: 'LOGIN_SUCCESS', token });
   } catch (err) {
