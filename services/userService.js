@@ -7,8 +7,8 @@ const userSignIn = async (email, password) => {
     // [1] 데이터베이스에서 유저 있는지 확인
     const [user] = await userDao.getUserByEmail(email);
     // [2] 유저가 없거나, 있어도 비밀번호 정보가 불일치하면 에러
-    const hashedPassword = await bcrypt.hashSync(password, 10);
-    const isCorrectPassword = await bcrypt.compareSync(password, hashedPassword);
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const isCorrectPassword = await bcrypt.compare(password, hashedPassword);
     if ((!user) || (!isCorrectPassword)) {
       const error = new Error ('INVALID_USER');
       error.statusCode = 400;
@@ -37,7 +37,7 @@ const userSignUp = async (email, password, username) => {
       throw error;
   } 
   // [3] 유효한 비밀번호를 해쉬처리하여 복호화 후 데이터베이스에 유저 정보 저장 
-  const hashedPassword = await bcrypt.hashSync(password, 10);
+  const hashedPassword = await bcrypt.hash(password, 10);
   const createdUser = await userDao.userSignUp(email, hashedPassword, username);
 
   return createdUser; 
