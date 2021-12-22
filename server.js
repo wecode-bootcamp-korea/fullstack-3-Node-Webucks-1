@@ -1,32 +1,29 @@
 const http = require("http");
 const express = require("express");
+const routes = require("./routes");
 const { sendCategories } = require("./API/sendCategories");
 const { sendDetail } = require("./API/sendDetail");
 const { sendList, createCoffee, updateCoffee,deleteCoffee, } = require("./API/sendList");
-const { productCategories } = require("./API/productCategories");
-const { productDetail } = require("./API/productDetail");
-const { productList } = require("./API/productList");
-const { userSignUp } = require("./API/userSignUp"); 
-
+const { PrismaClient } = require("@prisma/client");
+const prisma = new PrismaClient();
 const PORT = 4000;
 
 const app = express();
 app.use(express.json());
+app.use(routes);
 
 /* Client's HTTP REQUEST based */
 // 1. GET REQUEST
-app.get("/products/categories", productCategories);
-app.get("/products", productDetail);
-app.get("/products/2", productList);
-// app.get("/products/categories", sendCategories);
-// app.get("/products", sendDetail);
-// app.get("/products/2", sendList);
+// Mission 1
+app.get("/coffees/categories", sendCategories);
+app.get("/coffees/detail", sendDetail);
+app.get("/coffees", sendList);
 
 // 2. POST REQUEST
-app.post("/products/signUp", userSignUp);
-// app.post("/products/create", createCoffee);
-// app.post("/products/update", updateCoffee);
-// app.post("/products/delete", deleteCoffee);
+// Mission 1
+app.post("/coffees/create", createCoffee);
+app.post("/coffees/update", updateCoffee);
+app.post("/coffees/delete", deleteCoffee);
 
 // Create a server
 const server = http.createServer(app);
