@@ -1,16 +1,23 @@
-const userDao = require('../models/UserDao');
-const bcrypt = require('bcrypt');
+const userDao = require("../models/UserDao");
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 
 const signUp = async (email, password, username, address, phoneNumber) => {
   const [user] = await userDao.getUserByEmail(email);
 
   if (user) {
-    const error = new Error('ID ALEADY EXISTS');
+    const error = new Error("ID ALEADY EXISTS");
     error.statusCode = 400;
 
     throw error;
   } else {
-    const createUser = userDao.signUp(email, password, username, address, phoneNumber);
+    const createUser = userDao.signUp(
+      email,
+      password,
+      username,
+      address,
+      phoneNumber
+    );
 
     return createUser;
   }
@@ -21,7 +28,7 @@ const signIn = async (email, password) => {
   const same = bcrypt.compareSync(password, user.password);
 
   if (!user) {
-    const error = new Error('INVALID_USER');
+    const error = new Error("INVALID_USER");
     error.statusCode = 400;
 
     throw error;
@@ -29,13 +36,13 @@ const signIn = async (email, password) => {
 
   if (!same) {
     console.log(user.password, same);
-    const error = new Error('INVALID_USER');
+    const error = new Error("INVALID_USER");
     error.statusCode = 400;
 
     throw error;
   }
 
-  const token = user.id;
+  const token = jwt.sign({ id: 1 }, "secretkey", { expiresIn: "30m" });
 
   return token;
 };
