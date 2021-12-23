@@ -11,7 +11,7 @@ const signUp = async (email, password, username) => {
 
     throw error;
   } else {
-    const createdUser = userDao.createUser(email, password, username);
+    const createdUser = await userDao.createUser(email, password, username);
 
     return createdUser;
   }
@@ -36,8 +36,8 @@ const signIn = async (email, password) => {
     throw error;
   }
 
-  const token = jwt.sign({ id: 2 }, 'server_made_secret_key', {
-    expiresIn: '1h',
+  const token = jwt.sign({ id: user.id }, 'server_made_secret_key', {
+    expiresIn: '1d',
   });
 
   return token;

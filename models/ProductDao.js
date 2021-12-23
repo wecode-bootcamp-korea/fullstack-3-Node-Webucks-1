@@ -1,22 +1,124 @@
 const { PrismaClient } = require('@prisma/client');
-// const { ProductServies } = require('../services/ProductServies');
 
 const prisma = new PrismaClient();
 
-const getProduct = async () => {
-  const productList = await prisma.$queryRaw`
-    SELECT * FROM products
+const getProducts = async () => {
+  const product = await prisma.$queryRaw`
+    SELECT 
+      id, 
+      koreanName, 
+      englishName, 
+      productInfo, 
+      isNew, 
+      categoriesId 
+    FROM 
+      products
   `;
 
-  return productList;
+  return product;
+};
+
+const getProduct = async (productId) => {
+  const product = await prisma.$queryRaw`
+    SELECT
+      id,
+      koreanName,
+      englishName,
+      productInfo,
+      isNew,
+      categoriesId
+    FROM
+      products
+    WHERE
+      id=${productId}
+  `;
+
+  return product;
+};
+
+const createProduct = async (
+  koreanName,
+  englishName,
+  productInfo,
+  isNew,
+  categoriesId
+) => {
+  const product = await prisma.$queryRaw`
+    INSERT INTO products 
+    (
+      koreanName, 
+      englishName, 
+      productInfo, 
+      isNew, 
+      categoriesId
+    ) 
+    VALUES 
+    (
+      ${koreanName},
+      ${englishName}, 
+      ${productInfo}, 
+      ${isNew}, 
+      ${categoriesId}
+    );`;
+
+  return product;
+};
+
+const updateProduct = async (id, key, value) => {
+  const product = await prisma.products.update({
+    where: {
+      id: Number(id),
+    },
+    data: {
+      [key]: value,
+    },
+  });
+
+  return product;
+};
+
+const deleteProduct = async (id) => {
+  const product = await prisma.$queryRaw`
+    DELETE FROM 
+      products
+    WHERE 
+      id=${id}
+  `;
 };
 
 const getCategory = async () => {
-  const categoryList = await prisma.$queryRaw`
-    SELECT * FROM categories
+  const category = await prisma.$queryRaw`
+    SELECT 
+      id, 
+      name 
+    FROM 
+      categories
   `;
 
-  return categoryList;
+  return category;
 };
 
-module.exports = { getProduct, getCategory };
+const getHeartByProductId = async (productId) => {
+  const heart = await prisma.$queryRaw`
+    SELECT
+      id,
+      usersId,
+      productsId
+    FROM
+      heart
+    WHERE
+      productsId=${productId}
+  `;
+
+  return heart;
+};
+
+module.exports = {
+  getProducts,
+  getProduct,
+  createProduct,
+  updateProduct,
+  deleteProduct,
+  getCategory,
+  getHeartByProductId,
+};

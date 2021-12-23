@@ -21,4 +21,12 @@ const getUserByEmail = async (email) => {
   return user;
 };
 
-module.exports = { createUser, getUserByEmail };
+const getUserById = async (id) => {
+  const user = await prisma.$queryRaw`
+    SELECT id FROM users WHERE id=${id}
+  `;
+
+  return user;
+};
+
+module.exports = { createUser, getUserByEmail, getUserById };

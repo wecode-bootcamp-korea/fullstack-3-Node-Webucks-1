@@ -7,9 +7,9 @@ const signUp = async (req, res) => {
 
     console.log('email: ', email);
 
-    await UserServices.signUp(email, password, username);
+    const userInfo = await UserServices.signUp(email, password, username);
 
-    return res.status(201).json({ message: 'CREATED_SUCCESS' });
+    return res.status(201).json({ message: 'CREATED_SUCCESS', userInfo });
   } catch (err) {
     console.log(err);
     return res.status(err.statusCode || 500).json({ message: err.message });
@@ -26,8 +26,6 @@ const signIn = async (req, res) => {
         return res.status(400).json({ message: `KEY_ERROR: ${info}` });
       }
     }
-
-    console.log(email, password);
 
     const token = await UserServices.signIn(email, password);
 
