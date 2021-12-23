@@ -1,0 +1,97 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model categories {
+  id       Int        @id @default(autoincrement())
+  name     String
+  products products[]
+}
+
+model products {
+  id                Int                 @id @default(autoincrement())
+  koreanName        String
+  englishName       String
+  productInfo       String
+  isNew             Boolean
+  images            images[]
+  productsAllergies productsAllergies[]
+  nutritions        nutritions[]
+  heart             heart[]
+  comment           comment[]
+
+  categories   categories @relation(fields: [categoriesId], references: [id])
+  categoriesId Int
+}
+
+model images {
+  id       Int    @id @default(autoincrement())
+  imageUrl String
+
+  products   products @relation(fields: [productsId], references: [id])
+  productsId Int
+}
+
+model allergies {
+  id                 Int                 @id @default(autoincrement())
+  name               String
+  productssAllergies productsAllergies[]
+}
+
+model productsAllergies {
+  id Int @id @default(autoincrement())
+
+  products    products  @relation(fields: [productsId], references: [id])
+  productsId  Int
+  allergies   allergies @relation(fields: [allergiesId], references: [id])
+  allergiesId Int
+}
+
+model nutritions {
+  id     Int     @id @default(autoincrement())
+  name   String
+  amount Decimal
+
+  products   products @relation(fields: [productsId], references: [id])
+  productsId Int
+}
+
+model users {
+  id           Int       @id @default(autoincrement())
+  email        String
+  password     String
+  username     String?
+  address      String?
+  phoneNumber  String?
+  policyAgreed Boolean   @default(true)
+  heart        heart[]
+  comment      comment[]
+}
+
+model heart {
+  id Int @id @default(autoincrement())
+
+  users      users    @relation(fields: [usersId], references: [id])
+  usersId    Int
+  products   products @relation(fields: [productsId], references: [id])
+  productsId Int
+}
+
+model comment {
+  id         Int       @id @default(autoincrement())
+  created_at DateTime? @default(now())
+  updated_at DateTime?
+  deleted_at DateTime?
+  users      users     @relation(fields: [usersId], references: [id])
+  usersId    Int
+  products   products  @relation(fields: [productsId], references: [id])
+  productsId Int
+}
