@@ -24,17 +24,10 @@ model drinks {
   is_new        Boolean
   category_id   Int
   categories    categories      @relation(fields: [category_id], references: [id])
-  likeBool      likeBool[]
   images        images[]
   allergy_drink allergy_drink[]
   nutrients     nutrients[]
-}
-
-model likeBool {
-  id       Int     @id @default(autoincrement())
-  is_like  Boolean @default(false)
-  drink_id Int
-  drinks   drinks  @relation(fields: [drink_id], references: [id])
+  likeDrinks    likeDrinks[]
 }
 
 model images {
@@ -71,11 +64,20 @@ model nutrients {
 }
 
 model users {
-  id            Int     @id @default(autoincrement())
-  email         String  @unique
+  id            Int          @id @default(autoincrement())
+  email         String       @unique
   password      String
   username      String?
   address       String?
   phone_number  String?
-  policy_agreed Boolean @default(true)
+  policy_agreed Boolean      @default(true)
+  likeDrinks    likeDrinks[]
+}
+
+model likeDrinks {
+  id       Int    @id @default(autoincrement())
+  drink_id Int
+  user_id  Int
+  users    users  @relation(fields: [user_id], references: [id])
+  drinks   drinks @relation(fields: [drink_id], references: [id])
 }

@@ -29,12 +29,13 @@ const signIn = async (req, res) => {
     }
 
     const token = await userServices.signIn(email, password);
-    res.cookie('user', token);
+    res.clearCookie(`user`);
+    res.cookie(`user`, token);
     res.status(200).send(`success : 로그인성공, token : ${token}`);
   } catch (err) {
     console.log(err);
     res.status(500).send(err.message);
   }
 };
-
+//
 export default { signUp, signIn };
