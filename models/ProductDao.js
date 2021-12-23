@@ -2,6 +2,7 @@ const { PrismaClient } = require('@prisma/client');
 
 const prisma = new PrismaClient();
 
+// 제품 목록 조회
 const getProducts = async () => {
   const product = await prisma.$queryRaw`
     SELECT 
@@ -18,6 +19,7 @@ const getProducts = async () => {
   return product;
 };
 
+// 제품 조회
 const getProduct = async (productId) => {
   const product = await prisma.$queryRaw`
     SELECT
@@ -36,6 +38,7 @@ const getProduct = async (productId) => {
   return product;
 };
 
+// 제품 생성
 const createProduct = async (
   koreanName,
   englishName,
@@ -64,6 +67,7 @@ const createProduct = async (
   return product;
 };
 
+// 제품 내용 수정
 const updateProduct = async (id, key, value) => {
   const product = await prisma.products.update({
     where: {
@@ -77,6 +81,7 @@ const updateProduct = async (id, key, value) => {
   return product;
 };
 
+// 제품 삭제
 const deleteProduct = async (id) => {
   const product = await prisma.$queryRaw`
     DELETE FROM 
@@ -86,6 +91,7 @@ const deleteProduct = async (id) => {
   `;
 };
 
+// 카테고리 목록 조회
 const getCategory = async () => {
   const category = await prisma.$queryRaw`
     SELECT 
@@ -98,6 +104,7 @@ const getCategory = async () => {
   return category;
 };
 
+// 제품 번호로 하트 조회
 const getHeartByProductId = async (productId) => {
   const heart = await prisma.$queryRaw`
     SELECT

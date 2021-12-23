@@ -14,7 +14,6 @@ const productDetail = async (req, res) => {
 
   const product = await Productservices.productDetail(productId);
   const findHeart = await Productservices.findHeart(productId, userId);
-  // console.log(findHeart);
 
   return res.status(200).json({ product, findHeart });
 };
@@ -23,7 +22,7 @@ const productDetail = async (req, res) => {
 const postProduct = async (req, res) => {
   const { koreanName, englishName, productInfo, isNew, categoriesId } =
     req.body;
-  const postProduct = await Productservices.postProduct(
+  await Productservices.postProduct(
     koreanName,
     englishName,
     productInfo,
@@ -40,7 +39,7 @@ const updateProduct = async (req, res) => {
   const { koreanName, englishName, productInfo, isNew, categoriesId } =
     req.body;
 
-  const product = await Productservices.updateProduct(
+  await Productservices.updateProduct(
     productId,
     koreanName,
     englishName,
@@ -65,15 +64,6 @@ const deleteProduct = async (req, res) => {
 const categoryList = async (req, res) => {
   const categoryList = await Productservices.categoryList();
 
-  const { koreanName, englishName, productInfo, isNew, categoriesId } =
-    req.body;
-  const updateProduct = await Productservices.postProduct(
-    koreanName,
-    englishName,
-    productInfo,
-    isNew,
-    categoriesId
-  );
   return res.status(200).json({ categoryList });
 };
 

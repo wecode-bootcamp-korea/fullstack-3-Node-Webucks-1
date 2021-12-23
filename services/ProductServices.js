@@ -1,4 +1,3 @@
-const { is } = require('express/lib/request');
 const ProductDao = require('../models/ProductDao');
 
 // 제품 목록 조회
@@ -10,7 +9,7 @@ const productList = async () => {
 
 // 제품 조회
 const productDetail = async (productId) => {
-  const product = await ProductDao.getProduct(productId);
+  const [product] = await ProductDao.getProduct(productId);
 
   return product;
 };
