@@ -66,20 +66,4 @@ const likeProduct = async (req, res) => {
   }
 };
 
-const likeDeleteProduct = async (req, res) => {
-  try {
-    const { id } = req.body;
-    const { userId } = req;
-    const requiredKey = { id, userId };
-    for (let key in requiredKey) {
-      if (!requiredKey[key]) return res.status(400).send('양식이 올바르지 않습니다.');
-    }
-    console.log('con');
-    const like = await productServices.likeDeleteProduct(id, userId);
-    res.status(200).send(like);
-  } catch (err) {
-    return res.status(400).send(err.message);
-  }
-};
-
-export default { getProduct, createProduct, updateProduct, deleteProduct, likeProduct, likeDeleteProduct };
+export default { getProduct, createProduct, updateProduct, deleteProduct, likeProduct };

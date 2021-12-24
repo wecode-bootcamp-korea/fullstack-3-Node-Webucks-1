@@ -2,11 +2,13 @@ import express from 'express';
 import { PrismaClient } from '@prisma/client';
 import routes from './pattern/routes';
 import cookieParser from 'cookie-parser';
+import cors from 'cors';
 
 const prisma = new PrismaClient();
 const PORT = 8060;
 const app = express();
 
+app.use(cors());
 app.use(express.json()); //미들
 app.use(cookieParser());
 app.use(routes);

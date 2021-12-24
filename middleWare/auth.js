@@ -23,19 +23,5 @@ const admin_authorization = async (req, res, next) => {
     res.status(400).send('관리자가 아닙니다');
   }
 };
-// 제품 좋아요 인가
-const like_authorization = async (req, res, next) => {
-  // 하트를 누른사람만 그 하트를 삭제할수 있게 하기위한 인가
-  const { id } = req.body;
-  const { userId } = req;
-  const likeTable = await productDao.showLike();
-  for (let i = 0; i < likeTable.length; i++) {
-    if (likeTable[i].drink_id === id && likeTable[i].user_id === userId) {
-      return next();
-    }
-  }
-  return res.status(400).send('좋아요버튼을 누른적이 없습니다.');
-};
 
-export { Authentication, admin_authorization, like_authorization };
-//
+export { Authentication, admin_authorization };

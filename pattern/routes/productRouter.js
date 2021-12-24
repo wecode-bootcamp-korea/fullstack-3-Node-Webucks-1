@@ -9,8 +9,7 @@ router.post('/', Authentication, productController.createProduct);
 router.put('/', Authentication, productController.updateProduct);
 router.delete('/', Authentication, productController.deleteProduct);
 
-router.put('/list', productController.likeProduct);
-router.delete('/list', like_authorization, productController.likeDeleteProduct);
+router.post('/likes', productController.likeProduct);
 
 export default router;
 

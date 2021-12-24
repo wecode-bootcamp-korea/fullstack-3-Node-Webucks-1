@@ -30,17 +30,18 @@ const deleteProduct = async (id) => {
 };
 
 const likeProduct = async (id, userId) => {
-  const isDrink = await productDao.getProducts();
-  if (!isDrink[id - 1]) throw new Error('그런 음료는 없습니다.');
+  const likeTable = await productDao.showLike(); // 현재 좋아요 상태체크
+  for (let i = 0; i < likeTable.length; i++) {
+    if (likeTable[i].drink_id === id && likeTable[i].user_id === userId) {
+      await productDao.deleteLike(id, userId); // 좋아요가 눌러져 있다면 지우기
+      const like = await productDao.showLike();
+      return like;
+    }
+  }
+
   await productDao.insertLike(id, userId);
   const like = await productDao.showLike();
   return like;
 };
 
-const likeDeleteProduct = async (id, userId) => {
-  await productDao.deleteLike(id, userId);
-  const like = await productDao.showLike();
-  return like;
-};
-
-export default { getProducts, createProducts, updateProduct, deleteProduct, likeProduct, likeDeleteProduct };
+export default { getProducts, createProducts, updateProduct, deleteProduct, likeProduct };
