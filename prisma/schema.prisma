@@ -1,0 +1,83 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model categories {
+  id     Int      @id @default(autoincrement())
+  name   String
+  drinks drinks[]
+}
+
+model drinks {
+  id            Int             @id @default(autoincrement())
+  korean_name   String
+  english_name  String
+  drink_info    String
+  is_new        Boolean
+  category_id   Int
+  categories    categories      @relation(fields: [category_id], references: [id])
+  images        images[]
+  allergy_drink allergy_drink[]
+  nutrients     nutrients[]
+  likeDrinks    likeDrinks[]
+}
+
+model images {
+  id        Int    @id @default(autoincrement())
+  image_url String
+  drink_id  Int
+  drinks    drinks @relation(fields: [drink_id], references: [id])
+}
+
+model allergies {
+  id            Int             @id @default(autoincrement())
+  name          String
+  allergy_drink allergy_drink[]
+}
+
+model allergy_drink {
+  id         Int       @id @default(autoincrement())
+  drink_id   Int
+  allergy_id Int
+  allergies  allergies @relation(fields: [allergy_id], references: [id])
+  drinks     drinks    @relation(fields: [drink_id], references: [id])
+}
+
+model nutrients {
+  id       Int     @id @default(autoincrement())
+  kcal     Decimal
+  sugar    Decimal
+  protein  Decimal
+  sodium   Decimal
+  fat      Decimal
+  caffeine Decimal
+  drink_id Int
+  drinks   drinks  @relation(fields: [drink_id], references: [id])
+}
+
+model users {
+  id            Int          @id @default(autoincrement())
+  email         String       @unique
+  password      String
+  username      String?
+  address       String?
+  phone_number  String?
+  policy_agreed Boolean      @default(true)
+  likeDrinks    likeDrinks[]
+}
+
+model likeDrinks {
+  id       Int    @id @default(autoincrement())
+  drink_id Int
+  user_id  Int
+  users    users  @relation(fields: [user_id], references: [id])
+  drinks   drinks @relation(fields: [drink_id], references: [id])
+}
